@@ -31,7 +31,7 @@ _mainScript_() {
     verbose "Creating today's directry: ${todays_dir}"
     mkdir -p "${todays_dir}"
 
-    if pg_dump -U "${username}" -d "${db}" -w | gzip -9 > "${todays_dir}/${backupTime}-${db}.sql.gz"; then
+    if pg_dump -U "${username}" -d "${db}" -w -Z 9 > "${todays_dir}/${backupTime}-${db}.sql.gz"; then
       success "${todays_dir}/${backupTime}-${db}.sql.gz created"
       _safeExit_ 0
     else
