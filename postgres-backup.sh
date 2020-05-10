@@ -33,6 +33,13 @@ _mainScript_() {
 
     if pg_dump -U "${username}" -d "${db}" -w -Z 9 > "${todays_dir}/${backupTime}-${db}.sql.gz"; then
       success "${todays_dir}/${backupTime}-${db}.sql.gz created"
+
+      # Keep most recent version available at root of backup directory
+      if [ -f "${parent_dir}/${db}-current.sql.gz" ]; then
+        rm "${parent_dir}/${db}-current.sql.gz"
+      fi
+      cp "${todays_dir}/${backupTime}-${db}.sql.gz" "${parent_dir}/${db}-current.sql.gz"
+      success "Current backup overwritten"
       _safeExit_ 0
     else
       error "Failed to create backup"
@@ -40,6 +47,7 @@ _mainScript_() {
     fi
 
   }
+
 
   _rotateOld_ && _doBackup_
 
