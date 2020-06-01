@@ -9,7 +9,7 @@ _mainScript_() {
   username="${POSTGRES_USER}"
   db="${POSTGRES_DB}"
   password="${POSTGRES_PASSWORD}"
-  days_of_backups=3  # Must be less than 7
+  days_of_backups=6  # Must be less than 7
   parent_dir="/backups"
   todays_dir="${parent_dir}/$(date +%a)"
   logFile="/backups/dbBackup.log"
